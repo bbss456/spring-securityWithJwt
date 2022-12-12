@@ -1,37 +1,37 @@
 version: '3'
 
 services:
-  hyper_real_api_db:
+  pwang_security_db:
     platform: linux/x86_64
     image: mysql:8.0
-    container_name: hyper_real_api-db
+    container_name: pwang_security_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: HyperRealApi
+      MYSQL_DATABASE: root
     ports:
       - "3306:3306"
     volumes:
-      - ../HyperRealApi-mysql:/var/lib/mysql
-      - ../HyperRealApi-mysql-conf:/etc/mysql/conf.d
+      - ../pwang-mysql:/var/lib/mysql
+      - ../pwang-mysql-conf:/etc/mysql/conf.d
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
     networks:
-      - hyper_real_api
+      - pwang
     restart: always
 
   hyper_real_api-api:
     build:
       context: ./java
-    container_name: hyper_real_api-api
+    container_name: pwang-api
     ports:
       - "8080:8080"
     depends_on:
-      - hyper_real_api_db
+      - pwang_security_db
     networks:
-      - hyper_real_api
+      - pwang
     restart: always
 
 networks:
-  hyper_real_api:
+  pwang:
     driver: bridge
