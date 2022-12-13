@@ -7,7 +7,7 @@ services:
     container_name: pwang_security_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
+      MYSQL_DATABASE: pwang
     ports:
       - "3306:3306"
     volumes:
