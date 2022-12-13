@@ -1,4 +1,4 @@
-package com.xinapse.ivobackapi.global.exception;
+package com.pwang.projoect.global.exception;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ public class ErrorResponse {
             value = e.getValue().toString();
         }
 
-        final List<ErrorResponse.FieldError> errors = ErrorResponse.FieldError.of(e.getName(), value, e.getErrorCode());
+        final List<FieldError> errors = FieldError.of(e.getName(), value, e.getErrorCode());
         return new ErrorResponse(ErrorCode.INVALID_TYPE_VALUE, errors);
     }
 

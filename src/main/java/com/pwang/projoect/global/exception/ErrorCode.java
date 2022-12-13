@@ -1,4 +1,4 @@
-package com.xinapse.ivobackapi.global.exception;
+package com.pwang.projoect.global.exception;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

@@ -1,8 +1,8 @@
-package com.xinapse.ivobackapi.global.config;
+package com.pwang.projoect.global.config;
 
-import com.xinapse.ivobackapi.global.exception.BusinessException;
-import com.xinapse.ivobackapi.global.exception.ErrorCode;
-import com.xinapse.ivobackapi.global.exception.ErrorResponse;
+import com.pwang.projoect.global.exception.BusinessException;
+import com.pwang.projoect.global.exception.ErrorCode;
+import com.pwang.projoect.global.exception.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.QueryException;
 import org.springframework.http.HttpStatus;
@@ -23,14 +23,5 @@ public class GlobalExceptionHandler {
         final ErrorResponse response = ErrorResponse.of(errorCode);
 
         return new ResponseEntity<>(response, HttpStatus.valueOf(errorCode.getStatus()));
-    }
-
-    @ExceptionHandler(QueryException.class)
-    protected ResponseEntity<ErrorResponse> handleQueryRunException() {
-        log.warn("QueryException");
-        final ErrorCode errorCode = new BusinessException(ErrorCode.INVALID_TYPE_VALUE).getErrorCode();;
-        final ErrorResponse response = ErrorResponse.of(errorCode);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }

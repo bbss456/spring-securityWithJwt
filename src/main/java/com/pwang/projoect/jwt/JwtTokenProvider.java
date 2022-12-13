@@ -13,10 +13,8 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Base64;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +23,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class JwtProvider {
+public class JwtTokenProvider {
 
-    private static String secretKey = "!!Xxibawq@@";
-    private static String refreshSecretKey = "!!RReXxibawq@@";
+    private static String secretKey = "!@pwangaccesstoken";
+    private static String refreshSecretKey = "!@pwangrefresh";
 
     private static long tokenValidTime = 60 * 60 * 2 * 1000L;
 
@@ -68,11 +66,11 @@ public class JwtProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    public Authentication getAuthenticationRefreshToken(String refreshToken) {
-        User user = apiRepository.findwithrefreshToken(getClaimsRefresh(refreshToken).get("value").toString()).orElseThrow(() -> new BusinessException("토큰이 존재하지 않습니다.", ErrorCode.ENTITY_NOT_FOUND));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(api.getApiId());
-        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
+//    public Authentication getAuthenticationRefreshToken(String refreshToken) {
+//        User user = user.findwithrefreshToken(getClaimsRefresh(refreshToken).get("value").toString()).orElseThrow(() -> new BusinessException("토큰이 존재하지 않습니다.", ErrorCode.ENTITY_NOT_FOUND));
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(api.getApiId());
+//        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+//    }
 
     public String getUserPk(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
