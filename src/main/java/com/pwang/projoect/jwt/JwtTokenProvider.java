@@ -1,7 +1,5 @@
 package com.pwang.projoect.jwt;
 
-import com.pwang.projoect.domain.user.entity.User;
-import com.pwang.projoect.global.exception.BusinessException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -67,7 +65,7 @@ public class JwtTokenProvider {
     }
 
 //    public Authentication getAuthenticationRefreshToken(String refreshToken) {
-//        User user = user.findwithrefreshToken(getClaimsRefresh(refreshToken).get("value").toString()).orElseThrow(() -> new BusinessException("토큰이 존재하지 않습니다.", ErrorCode.ENTITY_NOT_FOUND));
+//        User user = user.findwithrefreshToken(getClaimsRefresh(refreshToken).get("value").toString()).orElseThrow(() -> new BusinessExceptionHandler("토큰이 존재하지 않습니다.", ErrorCode.ENTITY_NOT_FOUND));
 //        UserDetails userDetails = userDetailsService.loadUserByUsername(api.getApiId());
 //        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
 //    }

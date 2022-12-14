@@ -15,16 +15,14 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ErrorCode errorCode = ErrorCode.ForbiddenException;
-
         response.setContentType("application/json;charset=UTF-8");
         response.setCharacterEncoding("utf-8");
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         JSONObject json = new JSONObject();
-        json.put("status", errorCode.getStatus());
-        json.put("code", errorCode.getCode());
-        json.put("message", errorCode.getMessage());
+        json.put("status", HttpServletResponse.SC_UNAUTHORIZED);
+        json.put("code", "P403");
+        json.put("message", "인증 실패");
         response.getWriter().print(json);
     }
 }

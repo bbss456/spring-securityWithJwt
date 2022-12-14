@@ -11,18 +11,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/pwnag")
 @RequiredArgsConstructor
 public class UserController {
 
-    PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
 
     private HttpHeaders makeUTF8Header() {
@@ -32,12 +28,12 @@ public class UserController {
         return returnResHeaders;
     }
 
-    @PostMapping("/auth/api/v1/auth/new/user")
+    @PostMapping("/api/auth/new/user")
     public ResponseEntity<Boolean> createUser(@RequestBody RequestUserDTO requestUserDTO) {
 
         User user = User.builder()
             .userId(requestUserDTO.getUserId())
-            .password(passwordEncoder.encode(requestUserDTO.getPassword())    )
+            .password(passwordEncoder.encode(requestUserDTO.getPassword()))
             .name(requestUserDTO.getName())
             .role(requestUserDTO.getRole())
             .email(requestUserDTO.getEmail())
@@ -46,9 +42,29 @@ public class UserController {
         return new ResponseEntity<>(userService.createUser(user), this.makeUTF8Header(), HttpStatus.OK);
     }
 
-    @PostMapping("/auth/api/v1/auth/user")
-    public ResponseEntity<ResponseJwtTokenDTO> find(@RequestBody RequestFindUserDTO requestFindUserDTO) {
+    @PostMapping("/api/auth/login")
+    public ResponseEntity<ResponseJwtTokenDTO> loginAuthUser(@RequestBody RequestFindUserDTO requestFindUserDTO) {
 
-        return new ResponseEntity<>(userService.findUser(requestFindUserDTO), this.makeUTF8Header(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.loginAuthUser(requestFindUserDTO), this.makeUTF8Header(), HttpStatus.OK);
+    }
+
+    @PutMapping("/api/v1/user/{userId}")
+    public ResponseEntity<Boolean> updateUser(@RequestBody RequestUserDTO requestUserDTO) {
+        User user = userService.findByUserId(requestUserDTO.getUserId());
+
+        user = User.builder()
+                .userId(requestUserDTO.getUserId())
+                .password(passwordEncoder.encode(requestUserDTO.getPassword()))
+                .name(requestUserDTO.getName())
+                .role(requestUserDTO.getRole())
+                .email(requestUserDTO.getEmail())
+                .build();
+
+        return new ResponseEntity<>(userService.createUser(user), this.makeUTF8Header(), HttpStatus.OK);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Boolean> test() {
+        return new ResponseEntity<>(Boolean.TRUE, this.makeUTF8Header(), HttpStatus.OK);
     }
 }

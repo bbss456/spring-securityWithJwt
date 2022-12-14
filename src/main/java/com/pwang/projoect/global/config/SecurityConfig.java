@@ -17,6 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 
 @Configuration
@@ -40,6 +41,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
         JwtTokenProvider jwtTokenProvider) throws Exception {
+
         return http
             .httpBasic().disable()
             .csrf().disable()
@@ -49,11 +51,10 @@ public class SecurityConfig {
             .authenticationEntryPoint(authenticationEntryPointHandler)
             .accessDeniedHandler(jwtAccessDeniedHandler)
             .and()
-            .authorizeRequests()
-            .requestMatchers("/pwang/api/v1/auth/**").permitAll()
+            .authorizeHttpRequests()
+            .requestMatchers("/pwang/api/auth/**").permitAll()
             .requestMatchers("/pwang/api/v1/**").authenticated()
-            .requestMatchers("/test").hasRole("USER")
-            .requestMatchers("/api/user/**").hasRole("USER")
+            .requestMatchers("/pwang/test").authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter(jwtTokenProvider),
                 UsernamePasswordAuthenticationFilter.class)

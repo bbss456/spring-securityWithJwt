@@ -1,15 +1,15 @@
 package com.pwang.projoect.global.exception;
 
-public class BusinessException extends RuntimeException {
+public class BusinessExceptionHandler extends RuntimeException {
 
     private ErrorCode errorCode;
 
-    public BusinessException(String message, ErrorCode errorCode) {
+    public BusinessExceptionHandler(String message, ErrorCode errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public BusinessException(ErrorCode errorCode) {
+    public BusinessExceptionHandler(ErrorCode errorCode) {
         super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
