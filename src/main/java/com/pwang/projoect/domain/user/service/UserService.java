@@ -21,15 +21,24 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Boolean createUser(User user) {
-        userRepository.save(user);
-
-        return Boolean.TRUE;
-    }
-
     public User findByUserId(String UserId) {
         User user = userRepository.findById(UserId).orElseThrow(() ->new BusinessExceptionHandler("일치하는 유저가 존재하지 않습니다.", ErrorCode.ENTITY_NOT_FOUND));
         return user;
+    }
+
+    public Boolean createUser(User user) {
+        if(this.duplicationUser(user.getUserId())) {
+            userRepository.save(user);
+        } else {
+            throw new BusinessExceptionHandler("회원중복", ErrorCode.DUPLICATION);
+        }
+        return Boolean.TRUE;
+    }
+
+    public Boolean updateUser(User user) {
+        userRepository.save(user);
+
+        return Boolean.TRUE;
     }
 
     public ResponseJwtTokenDTO loginAuthUser(RequestFindUserDTO requestFindUserDTO) {
@@ -44,4 +53,10 @@ public class UserService {
             jwtTokenProvider.createJwtRefreshToken(user.getEmail()));
     }
 
+    public Boolean duplicationUser(String UserId) {
+        if(userRepository.duplicationUserId(UserId).getUserId().isEmpty()){
+           return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
 }

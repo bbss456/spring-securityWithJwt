@@ -1,7 +1,5 @@
 package com.pwang.projoect.global.config;
 
-
-
 import com.pwang.projoect.jwt.AuthenticationEntryPointHandler;
 import com.pwang.projoect.jwt.JwtAccessDeniedHandler;
 import com.pwang.projoect.jwt.JwtAuthenticationFilter;
@@ -17,8 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
 
 @Configuration
 @Log4j2
@@ -47,14 +43,14 @@ public class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
+            .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/pwang/api/auth/**").permitAll()
+                        .requestMatchers("/pwang/api/v1/**").authenticated()
+                        .anyRequest().permitAll()
+            )
             .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPointHandler)
             .accessDeniedHandler(jwtAccessDeniedHandler)
-            .and()
-            .authorizeHttpRequests()
-            .requestMatchers("/pwang/api/auth/**").permitAll()
-            .requestMatchers("/pwang/api/v1/**").authenticated()
-            .requestMatchers("/pwang/test").authenticated()
             .and()
             .addFilterBefore(jwtAuthenticationFilter(jwtTokenProvider),
                 UsernamePasswordAuthenticationFilter.class)

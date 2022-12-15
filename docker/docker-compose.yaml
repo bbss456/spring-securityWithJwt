@@ -20,18 +20,6 @@ services:
       - pwang
     restart: always
 
-  hyper_real_api-api:
-    build:
-      context: ./java
-    container_name: pwang-api
-    ports:
-      - "8080:8080"
-    depends_on:
-      - pwang_security_db
-    networks:
-      - pwang
-    restart: always
-
 networks:
   pwang:
     driver: bridge

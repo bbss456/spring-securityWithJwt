@@ -8,9 +8,7 @@ public class RequestUserDTO {
 
     private String userId;
     private String name;
-
     private UserRole role;
     private String email;
     private String password;
-
 }

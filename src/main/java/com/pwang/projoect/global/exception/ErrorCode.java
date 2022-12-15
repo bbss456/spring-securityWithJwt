@@ -5,19 +5,21 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
-    ENTITY_NOT_FOUND(400, "C001", " Entity Not Found"),
+    ENTITY_NOT_FOUND(400, "P001", " Entity Not Found"),
 
-    INVALID_TYPE_VALUE(400, "C002", " Invalid Type Value"),
+    INVALID_TYPE_VALUE(400, "P002", " Invalid Type Value"),
 
-    UNAUTHORIZEDException (401, "C003", "계정 인증이 실패하였습니다."),
+    UNAUTHORIZEDException (401, "P003", "Account verification failed"),
 
-    NULLTokenException (401, "C004", "토큰이 존재하지 않습니다."),
+    NULLTokenException (401, "P004", "Token does not exist."),
 
-    ExpiredJwtException(401, "C005", "기존 토큰이 만료되었습니다. refreshToken가지고 토큰을 재발급 받으세요. "),
+    ExpiredJwtException(401, "P005", "AccessToKen expiration, RefreshToken reissuance"),
 
-    ReLogin(401, "C006", "refreshToken 토큰이 만료되었습니다."),
+    ReLogin(401, "P006", "refreshToken expiration"),
 
-    ForbiddenException(403, "C007", "해당 요청에 대한 권한이 없습니다.");
+    ForbiddenException(403, "P007", "You do not have permission."),
+
+    DUPLICATION(409, "P008", "Account Duplication");
 
     private final String code;
     private final String message;

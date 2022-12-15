@@ -1,5 +1,7 @@
 package com.pwang.projoect.jwt;
 
+import com.pwang.projoect.domain.user.entity.CustumUserDetail;
+import com.pwang.projoect.domain.user.service.CustumUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -15,8 +17,6 @@ import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +30,7 @@ public class JwtTokenProvider {
 
     private static long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 8 * 1000L;
 
-    private final UserDetailsService userDetailsService;
+    private final CustumUserDetailsService custumUserDetailsService;
 
     public static String createAccessToken(String userPk, String roles) {
         Claims claims = Jwts.claims().setSubject(userPk);
@@ -60,7 +60,7 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        CustumUserDetail userDetails = (CustumUserDetail) custumUserDetailsService.loadUserByUsername(this.getUserPk(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

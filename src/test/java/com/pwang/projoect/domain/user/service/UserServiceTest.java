@@ -3,6 +3,7 @@ package com.pwang.projoect.domain.user.service;
 import com.pwang.projoect.ProjoectApplication;
 import com.pwang.projoect.domain.user.entity.User;
 import com.pwang.projoect.domain.user.entity.UserRole;
+import com.pwang.projoect.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,9 @@ class UserServiceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Test
     void createUser() {
@@ -38,4 +42,4 @@ class UserServiceTest {
 
         userService.createUser(user);
     }
-}
+ }

@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pwnag")
+@RequestMapping("/pwang")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -28,7 +28,7 @@ public class UserController {
         return returnResHeaders;
     }
 
-    @PostMapping("/api/auth/new/user")
+    @PostMapping("/api/auth/new")
     public ResponseEntity<Boolean> createUser(@RequestBody RequestUserDTO requestUserDTO) {
 
         User user = User.builder()
@@ -60,11 +60,6 @@ public class UserController {
                 .email(requestUserDTO.getEmail())
                 .build();
 
-        return new ResponseEntity<>(userService.createUser(user), this.makeUTF8Header(), HttpStatus.OK);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<Boolean> test() {
         return new ResponseEntity<>(Boolean.TRUE, this.makeUTF8Header(), HttpStatus.OK);
     }
 }
